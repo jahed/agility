@@ -1,0 +1,10 @@
+/.bundle
+/build
+
+/.sass-cache
+/.cache
+
+.idea/workspace.xml
+.DS_Store
+
+Gemfile.lock

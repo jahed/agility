@@ -1,0 +1,33 @@
+.fixed
+  %nav.top-bar{role: "navigation", data: {topbar: ''}}
+    %ul.title-area
+      %li.name
+        %h1
+          = link_to "/" do
+            = data.site.name
+      %li.toggle-topbar.menu-icon
+        %a
+          %span Menu
+
+    %section.top-bar-section
+      %ul.left
+        %li.divider
+        - data.header.links.each do |link|
+          %li{ class: [(current_page.data.title == link.name ? "active" : nil)] }
+            =link_to link.url do
+              - if link.icon?
+                %i.fa{class: "fa-#{link.icon}"}
+              %span= link.name
+        %li.divider
+        %li.has-form
+          %form.row.collapse
+            .small-7.columns
+              %input#period.period{ type:"text", placeholder:"Set a period in seconds", value:"600" }
+            .small-5.columns
+              %span.button.expand.reset reset
+
+      %ul.right
+        %li
+          =link_to 'https://github.com/jahed/agility' do
+            %i.fa.fa-github
+            Source

@@ -1,0 +1,43 @@
+!!!
+%html{lang:"en-gb"}
+  %head
+    %meta{charset:"utf-8"}
+    %meta{name:"description", content:data.site.description}
+    %meta{name:"viewport", content:"width=device-width, initial-scale=1"}
+
+    %meta{property:"og:type", content:"website"}
+    %meta{property:"og:site_name", content:data.site.name}
+    %meta{property:"og:image", content:data.site.image}
+    %meta{name:"og:description", content:data.site.description}
+
+    %title= [current_page.data.title, data.site.name].compact.join(" - ")
+
+    %link{rel:"shortcut icon", href:data.site.icon, type:"image/png"}
+    %link{rel:"icon", href:data.site.icon, type:"image/png"}
+    %link{rel:"apple-touch-icon-precomposed", href:data.site.icon, type:"image/png"}
+
+    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+    = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css"
+    = stylesheet_link_tag "main"
+    - if current_page.data.styles?
+      - current_page.data.styles.each do |style|
+        = stylesheet_link_tag style
+
+%body{class:page_classes}
+
+  = partial "layouts/header"
+
+  = yield
+
+  = partial "layouts/footer"
+
+  = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/vendor/jquery.js"
+  = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/vendor/fastclick.js"
+  = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"
+  = javascript_include_tag "main"
+
+  - if current_page.data.scripts?
+    - current_page.data.scripts.each do |script|
+      = javascript_include_tag script
+
+  = partial "layouts/tracking"

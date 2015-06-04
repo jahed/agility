@@ -1,0 +1,6 @@
+name: 'Agility'
+description: 'Tools for Agile XP Practices (Mobbing, Retrospectives)'
+image: './images/alert.png'
+icon: './images/alert.png'
+
+google_analytics_id: false
