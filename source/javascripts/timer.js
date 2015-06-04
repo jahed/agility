@@ -9,6 +9,7 @@ pages.timer = pages.timer || (function() {
     var playButton;
     var pauseButton;
     var stopButton;
+    var timerNav;
 
     var State = {
         STOPPED: "stopped",
@@ -27,10 +28,12 @@ pages.timer = pages.timer || (function() {
         counter = $('.counter');
         counterText = counter.find('.counter-text');
         periodInput = $('input.period');
+        timerNav = $('.nav-timer');
         stopButton = $('.nav-timer-stop');
         playButton = $('.nav-timer-play');
         pauseButton = $('.nav-timer-pause');
 
+        periodInput.bind('change', parsePeriodInput);
 
         counter.bind('click', function onClick() {
             if(state === State.STOPPED) {
@@ -42,18 +45,22 @@ pages.timer = pages.timer || (function() {
             }
         });
 
-        parsePeriodInput();
-        periodInput.bind('change', parsePeriodInput);
-
         stopButton.bind('click', stopCounter);
-        playButton.bind('click', resumeCounter);
+        playButton.bind('click', function() {
+            if(state === State.STOPPED) {
+                startCounter();
+            } else {
+                resumeCounter();
+            }
+        });
         pauseButton.bind('click', pauseCounter);
 
         if(!!window.Notification) {
             Notification.requestPermission();
         }
 
-	}
+        stopCounter();
+    }
 
     function parsePeriodInput() {
         var timeParts = periodInput[0].value.split(':');
@@ -70,18 +77,28 @@ pages.timer = pages.timer || (function() {
         showNotification();
     }
 
+    function setActiveButton($button) {
+        timerNav.children().each(function() {
+            $(this).removeClass('active');
+        });
+
+        $button.addClass('active');
+    }
+
     function stopCounter() {
         stopCountdown();
         counterText.text('Start');
         counter.removeAttr('style');
         parsePeriodInput();
+        setActiveButton(stopButton);
     }
 
     function showNotification() {
         if (Notification.permission === "granted") {
             notification = new Notification("It's time to rotate!", {
-                body: 'Step away from the keyboard.',
-                icon: './images/alert.png'
+                body: 'Click here and step away from the keyboard.',
+                icon: './images/rotate.png',
+                vibrate: [200, 100, 200]
             });
 
             notification.onclick = function() {
@@ -103,6 +120,7 @@ pages.timer = pages.timer || (function() {
         });
 
         startCountdown();
+        setActiveButton(playButton);
     }
 
     function pauseCounter() {
@@ -111,6 +129,7 @@ pages.timer = pages.timer || (function() {
             'background-color': counterColor()
         });
         stopCountdown();
+        setActiveButton(pauseButton);
     }
 
     function resumeCounter() {
@@ -120,6 +139,7 @@ pages.timer = pages.timer || (function() {
             'transition': 'background-color ' + time + 's'
         });
         startCountdown();
+        setActiveButton(playButton);
     }
 
     function setState(newState) {

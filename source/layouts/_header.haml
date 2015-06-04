@@ -19,7 +19,7 @@
               %span= link.name
 
       - if current_page.data.header && current_page.data.header.links?
-        %ul.right
+        %ul.right{class: "nav-#{current_page.data.title.downcase}"}
           %li.divider
           - current_page.data.header.links.each do |link|
             %li{class: "nav-#{current_page.data.title.downcase}-#{link.icon}"}
