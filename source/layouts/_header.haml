@@ -21,6 +21,7 @@
 
       - if current_page.data.header && current_page.data.header.links?
         %ul.right
+          %li.divider
           - current_page.data.header.links.each do |link|
             %li
               =link_to link.url, (link.modal? ? {data: {reveal: { id: link.modal }}} : {})  do
