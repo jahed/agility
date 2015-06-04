@@ -34,13 +34,12 @@ body {
 }
 
 .counter {
-    font-family: monospace;
-    font-size:20vw;
     background-color: #333333;
     color: #dddddd;
     height:100%;
     border: 5px solid #333333;
     transition: border-color 0.2s;
+    text-align:center;
 
     &:hover {
         border-color: #fafafa;
@@ -62,6 +61,41 @@ body {
     &.paused {
         background-image: url(../images/square_bg.png);
         background-repeat: repeat;
+    }
+
+    .counter-text {
+        font-family: monospace;
+        font-size:20vw;
+    }
+
+    .turn-text {
+        font-size:5vw;
+    }
+}
+
+.mobster-controls {
+    border: none;
+
+    li {
+        height: 100%;
+        float:left;
+    }
+
+    .button {
+        height: 100%;
+        display:block;
+        margin: 0;
+    }
+}
+
+.mobster {
+    &.disabled {
+        opacity: 0.5;
+    }
+
+    &.active .mobster-control-name {
+        background-color: #71B284;
+        color: #ffffff;
     }
 }
 

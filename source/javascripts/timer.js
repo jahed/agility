@@ -1,7 +1,9 @@
 var pages = pages || {};
 
 pages.timer = pages.timer || (function() {
-	var counter, counterText;
+	var counter;
+    var counterText;
+    var turnText;
     var time = 0;
     var intervalId;
     var notification;
@@ -11,6 +13,13 @@ pages.timer = pages.timer || (function() {
     var stopButton;
     var settingsButton;
     var timerNav;
+
+
+    var addMobsterButton;
+    var mobsterTemplate;
+    var mobsterContainer;
+    var mobsters;
+    var currentMobsterIndex;
 
     var State = {
         STOPPED: "stopped",
@@ -26,6 +35,14 @@ pages.timer = pages.timer || (function() {
     var state = State.STOPPED;
 
     function init() {
+        $.get('./javascripts/templates/mobster.mustache')
+            .success(function(template) {
+                mobsterTemplate = template
+            })
+            .then(initCounter);
+    }
+
+    function initCounter() {
         counter = $('.counter');
         counterText = counter.find('.counter-text');
         periodInput = $('input.period');
@@ -34,6 +51,13 @@ pages.timer = pages.timer || (function() {
         playButton = $('.nav-timer-play');
         pauseButton = $('.nav-timer-pause');
         settingsButton = $('.nav-timer-settings');
+        addMobsterButton = $('.add-mobster');
+        mobsterContainer = $('.mobster-container');
+
+        turnText = $('.turn-text');
+
+        mobsters = [];
+        currentMobsterIndex = 0;
 
         counter.bind('click', function onClick() {
             if(state === State.STOPPED) {
@@ -56,11 +80,67 @@ pages.timer = pages.timer || (function() {
         pauseButton.bind('click', pauseCounter);
         settingsButton.bind('click', pauseCounter);
 
+        addMobsterButton.bind('click', addMobster);
+
         if(!!window.Notification) {
             Notification.requestPermission();
         }
-
         stopCounter();
+    }
+
+    function addMobster() {
+        var id = mobsters.length;
+
+        var $mobster = $(Mustache.render(mobsterTemplate, {
+            id: id
+        }));
+
+        var mobster = {
+            root: $mobster,
+            name: $mobster.find('.mobster-control-name')[0],
+            disabled: false
+        };
+
+        $mobster.find('.mobster-control-turn').bind('click', function() {
+            if(mobster.disabled) return;
+
+            var index = mobster.root.index();
+            currentMobsterIndex = index;
+            updateTurn();
+        });
+
+        $mobster.find('.mobster-control-up').bind('click', function() {
+            var index = mobster.root.index();
+            if(index === 0) return;
+
+            var aboveMobster = mobsters[index-1];
+            mobster.root.after(aboveMobster.root);
+            mobsters[index] = mobsters[index-1];
+            mobsters[index-1] = mobster;
+        });
+
+        $mobster.find('.mobster-control-down').bind('click', function() {
+            var index = mobster.root.index();
+            if(index === mobsters.length) return;
+
+            var belowMobster = mobsters[index+1];
+            mobster.root.before(belowMobster.root);
+            mobsters[index] = mobsters[index+1];
+            mobsters[index+1] = mobster;
+        });
+
+        $mobster.find('.mobster-control-disable').bind('click', function() {
+            if(mobster.disabled || mobster === mobsters[currentMobsterIndex]) {
+                mobster.disabled = false;
+                mobster.root.removeClass('disabled');
+            } else {
+                mobster.disabled = true;
+                mobster.root.addClass('disabled');
+            }
+        });
+
+        mobsters.push(mobster);
+        mobsterContainer.append(mobster.root);
     }
 
     function parsePeriodInput() {
@@ -103,6 +183,7 @@ pages.timer = pages.timer || (function() {
             'transition': 'none'
         });
 
+        updateTurn();
         startCountdown();
     }
 
@@ -132,6 +213,43 @@ pages.timer = pages.timer || (function() {
         stopCountdown();
         counterText.text('Rotate');
         showNotification();
+
+        nextMobster();
+    }
+
+    function mobbingEnabled() {
+        return mobsters.filter(function(mobster) {
+            return !mobster.disabled;
+        }).length >= 2;
+    }
+
+    function updateTurn() {
+        mobsters.forEach(function(mobster) {
+            mobster.root.removeClass('active');
+        });
+
+        if(mobbingEnabled()) {
+            var mobster = mobsters[currentMobsterIndex];
+            turnText.text(mobster.name.value + "'s Turn");
+            mobster.root.addClass('active');
+        } else {
+            turnText.empty();
+        }
+    }
+
+    function nextMobster() {
+        if (mobbingEnabled()) {
+            do {
+                currentMobsterIndex++;
+                if (currentMobsterIndex >= mobsters.length) {
+                    currentMobsterIndex = 0;
+                }
+            } while(mobsters[currentMobsterIndex].disabled);
+
+            turnText.text(mobsters[currentMobsterIndex].name.value + " is next");
+        } else {
+            turnText.empty();
+        }
     }
 
     function stopCounter() {
