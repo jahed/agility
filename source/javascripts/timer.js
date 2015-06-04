@@ -9,6 +9,7 @@ pages.timer = pages.timer || (function() {
     var playButton;
     var pauseButton;
     var stopButton;
+    var settingsButton;
     var timerNav;
 
     var State = {
@@ -32,8 +33,7 @@ pages.timer = pages.timer || (function() {
         stopButton = $('.nav-timer-stop');
         playButton = $('.nav-timer-play');
         pauseButton = $('.nav-timer-pause');
-
-        periodInput.bind('change', parsePeriodInput);
+        settingsButton = $('.nav-timer-settings');
 
         counter.bind('click', function onClick() {
             if(state === State.STOPPED) {
@@ -54,6 +54,7 @@ pages.timer = pages.timer || (function() {
             }
         });
         pauseButton.bind('click', pauseCounter);
+        settingsButton.bind('click', pauseCounter);
 
         if(!!window.Notification) {
             Notification.requestPermission();
@@ -64,33 +65,15 @@ pages.timer = pages.timer || (function() {
 
     function parsePeriodInput() {
         var timeParts = periodInput[0].value.split(':');
-        time = parseInt(timeParts[0],10)*60 + parseInt(timeParts[1],10);
+        return parseInt(timeParts[0],10)*60 + parseInt(timeParts[1],10);
+    }
+
+    function resetTime() {
+        time = parsePeriodInput();
     }
 
     function counterColor() {
         return getComputedStyle(counter[0])['background-color'];
-    }
-
-    function rotateCounter() {
-        stopCountdown();
-        counterText.text('Rotate');
-        showNotification();
-    }
-
-    function setActiveButton($button) {
-        timerNav.children().each(function() {
-            $(this).removeClass('active');
-        });
-
-        $button.addClass('active');
-    }
-
-    function stopCounter() {
-        stopCountdown();
-        counterText.text('Start');
-        counter.removeAttr('style');
-        parsePeriodInput();
-        setActiveButton(stopButton);
     }
 
     function showNotification() {
@@ -113,6 +96,7 @@ pages.timer = pages.timer || (function() {
     function startCounter() {
         setState(State.PLAYING);
 
+        resetTime();
         counterText.text(counterFormat(time));
         counter.css({
             'background-color': Color.START,
@@ -120,16 +104,18 @@ pages.timer = pages.timer || (function() {
         });
 
         startCountdown();
-        setActiveButton(playButton);
     }
 
     function pauseCounter() {
+        if(state !== State.PLAYING) {
+            return;
+        }
+
         setState(State.PAUSED);
         counter.css({
             'background-color': counterColor()
         });
         stopCountdown();
-        setActiveButton(pauseButton);
     }
 
     function resumeCounter() {
@@ -139,7 +125,20 @@ pages.timer = pages.timer || (function() {
             'transition': 'background-color ' + time + 's'
         });
         startCountdown();
-        setActiveButton(playButton);
+    }
+
+    function rotateCounter() {
+        setState(State.STOPPED);
+        stopCountdown();
+        counterText.text('Rotate');
+        showNotification();
+    }
+
+    function stopCounter() {
+        setState(State.STOPPED);
+        stopCountdown();
+        counterText.text('Start');
+        counter.removeAttr('style');
     }
 
     function setState(newState) {
@@ -147,13 +146,36 @@ pages.timer = pages.timer || (function() {
         state = newState;
         counter.addClass(newState);
 
+        var $button;
+
+        switch(newState) {
+            case State.PLAYING:
+                $button = playButton;
+                break;
+            case State.PAUSED:
+                $button = pauseButton;
+                break;
+            case State.STOPPED:
+                $button = stopButton;
+        }
+
+        setActiveButton($button);
+
         if(!!notification) {
             notification.close();
         }
     }
 
+    function setActiveButton($button) {
+        timerNav.children().each(function() {
+            $(this).removeClass('active');
+        });
+
+        $button.addClass('active');
+    }
+
     function countdown() {
-        if(time === parseInt(periodInput[0].value, 10)) {
+        if(time === parsePeriodInput()) {
             counter.css({
                 'background-color': Color.END,
                 'transition': 'background-color ' + time + 's'
@@ -169,11 +191,14 @@ pages.timer = pages.timer || (function() {
     }
 
     function startCountdown() {
+        if(intervalId) {
+            clearInterval(intervalId);
+        }
+
         intervalId = setInterval(countdown, 1000);
     }
 
     function stopCountdown() {
-        setState(State.STOPPED);
         clearInterval(intervalId);
         intervalId = null;
     }

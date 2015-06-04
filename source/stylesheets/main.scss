@@ -58,6 +58,11 @@ body {
         -moz-animation: zoom 1s;
         animation: zoom 1s;
     }
+
+    &.paused {
+        background-image: url(../images/square_bg.png);
+        background-repeat: repeat;
+    }
 }
 
 .period-separator {
