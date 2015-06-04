@@ -18,16 +18,12 @@
               - if link.icon?
                 %i.fa{class: "fa-#{link.icon}"}
               %span= link.name
-        %li.divider
-        %li.has-form
-          %form.row.collapse
-            .small-7.columns
-              %input#period.period{ type:"text", placeholder:"Set a period in seconds", value:"600" }
-            .small-5.columns
-              %span.button.expand.reset reset
 
-      %ul.right
-        %li
-          =link_to 'https://github.com/jahed/agility' do
-            %i.fa.fa-github
-            Source
+      - if current_page.data.header && current_page.data.header.links?
+        %ul.right
+          - current_page.data.header.links.each do |link|
+            %li
+              =link_to link.url, (link.modal? ? {data: {reveal: { id: link.modal }}} : {})  do
+                - if link.icon?
+                  %i.fa{class: "fa-#{link.icon}"}
+                %span= link.name

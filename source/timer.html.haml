@@ -2,6 +2,12 @@
 scripts:
   - timer
 no_footer: true
+header:
+  links:
+    - name: Settings
+      icon: cog
+      modal: settingsModal
+
 ---
 
 .row.middled.counter
@@ -10,3 +16,15 @@ no_footer: true
 
 .hidden
   %audio.alert{ src: './sounds/door-bell.wav', volume:'1' }
+
+#settingsModal.reveal-modal{ data: {reveal: ''}, role: 'dialog' }
+  %h2 Timer Settings
+  %form
+    .row.collapse
+      .small-3.columns
+        %label.prefix{for:'#period'} Duration
+      .small-9.columns
+        %input#period.period.text-center{ type:"time", placeholder:"Minutes", value:"10:00" }
+
+  %span.button.expand.reset Apply
+  %a.close-reveal-modal &#215;

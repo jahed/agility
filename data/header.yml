@@ -1,4 +1,7 @@
 links:
   - name: Timer
-    url: './timer.html'
-    icon: 'clock-o'
+    url: ./timer.html
+    icon: clock-o
+  - name: Source
+    url: https://github.com/jahed/agility
+    icon: github

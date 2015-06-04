@@ -77,7 +77,9 @@ pages.timer = pages.timer || (function() {
     function startCounter() {
         setState(State.PLAYING);
 
-        time = parseInt(periodInput[0].value,10);
+        var timeParts = periodInput[0].value.split(':');
+
+        time = parseInt(timeParts[0],10)*60 + parseInt(timeParts[1],10);
 
         counterText.text(counterFormat(time));
         counter.css({
