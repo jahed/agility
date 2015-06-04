@@ -1,11 +1,14 @@
 ---
+title: Timer
 scripts:
   - timer
 no_footer: true
 header:
   links:
-    - name:  Settings
-      icon:  cog
+    - icon: play
+    - icon: pause
+    - icon: stop
+    - icon:  cog
       modal: settingsModal
 
 ---
@@ -19,12 +22,13 @@ header:
 
 #settingsModal.reveal-modal{ data: {reveal: ''}, role: 'dialog' }
   %h2 Timer Settings
-  %form
-    .row.collapse
-      .small-3.columns
-        %label.prefix{for:'#period'} Duration
-      .small-9.columns
-        %input#period.period.text-center{ type:"time", placeholder:"Minutes", value:"10:00" }
+  .row.collapse
+    .small-3.columns
+      %label.prefix{for:'#period'} Duration
+    .small-9.columns
+      %input#period.period.text-center{ type:"time", placeholder:"Minutes", value:"10:00" }
+  %h4 Mobsters
 
-  %span.button.expand.reset Apply
+  %span.button.small.expand.add-mobster Add a Mobster
+
   %a.close-reveal-modal &#215;

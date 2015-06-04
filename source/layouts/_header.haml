@@ -11,7 +11,6 @@
 
     %section.top-bar-section
       %ul.left
-        %li.divider
         - data.header.links.each do |link|
           %li{ class: [(current_page.data.title == link.name ? "active" : nil)] }
             =link_to link.url do
@@ -23,7 +22,7 @@
         %ul.right
           %li.divider
           - current_page.data.header.links.each do |link|
-            %li
+            %li{class: "nav-#{current_page.data.title.downcase}-#{link.icon}"}
               =link_to link.url, (link.modal? ? {data: {reveal: { id: link.modal }}} : {})  do
                 - if link.icon?
                   %i.fa{class: "fa-#{link.icon}"}
