@@ -83,6 +83,11 @@ pages.timer = pages.timer || (function() {
                 body: 'Step away from the keyboard.',
                 icon: './images/alert.png'
             });
+
+            notification.onclick = function() {
+                window.focus();
+                notification.close();
+            };
         }
 
         $('audio.alert')[0].play();
