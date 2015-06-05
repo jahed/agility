@@ -1,5 +1,7 @@
 # Agility
 
+[![Build Status](https://img.shields.io/travis/jahed/agility.svg)](https://travis-ci.org/jahed/agility)
+
 Tools for Agile XP Practices (Mobbing, Retrospectives)
 
 ## Dependencies
