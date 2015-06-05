@@ -2,15 +2,17 @@
 %html{lang:"en-gb"}
   %head
     %meta{charset:"utf-8"}
-    %meta{name:"description", content:data.site.description}
     %meta{name:"viewport", content:"width=device-width, initial-scale=1"}
 
-    %meta{property:"og:type", content:"website"}
-    %meta{property:"og:site_name", content:data.site.name}
-    %meta{property:"og:image", content:data.site.image}
-    %meta{name:"og:description", content:data.site.description}
-
     %title= [current_page.data.title, data.site.name].compact.join(" - ")
+    %meta{name:"description", content: current_page.data.description || data.site.description}
+    =favicon_tag data.site.icon
+    %link{rel:"apple-touch-icon-precomposed", href:data.site.icon, type:"image/png"}
+
+    %meta{property:"og:type",        content: "website"}
+    %meta{property:"og:site_name",   content: [current_page.data.title, data.site.name].compact.join(" - ")}
+    %meta{property:"og:image",       content: current_page.data.image || data.site.image}
+    %meta{property:"og:description", content: current_page.data.description || data.site.description}
 
     %link{rel:"shortcut icon", href:data.site.icon, type:"image/png"}
     %link{rel:"icon", href:data.site.icon, type:"image/png"}
