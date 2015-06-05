@@ -158,8 +158,14 @@ pages.timer = pages.timer || (function() {
 
     function showNotification() {
         if (Notification.permission === "granted") {
+            var body =  'Click here and step away from the keyboard.';
+
+            if(mobbingEnabled()) {
+                body += '\n' + mobsters[currentMobsterIndex].name.value + ' is next';
+            }
+
             notification = new Notification("It's time to rotate!", {
-                body: 'Click here and step away from the keyboard.',
+                body: body,
                 icon: './images/rotate.png',
                 vibrate: [200, 100, 200]
             });
