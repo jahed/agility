@@ -218,10 +218,10 @@ pages.timer = pages.timer || (function() {
         setState(State.STOPPED);
         stopCountdown();
         counterText.text('Rotate');
-        showNotification();
 
         nextMobster();
-    }
+        showNotification();
+	}
 
     function mobbingEnabled() {
         return mobsters.filter(function(mobster) {
