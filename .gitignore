@@ -1,10 +1,10 @@
-/.bundle
-/build
+.bundle
+build
 
-/.sass-cache
-/.cache
+.sass-cache
+.cache
 
-.idea/workspace.xml
+.idea
 .DS_Store
 
 Gemfile.lock
