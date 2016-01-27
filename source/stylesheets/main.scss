@@ -29,11 +29,12 @@ body {
 .middled {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     height:100%;
 }
 
 .counter {
+    position:relative;
     background-color: #333333;
     color: #dddddd;
     height:100%;
