@@ -360,9 +360,9 @@ pages.timer = pages.timer || (function() {
         return (n < 10 ? '0' : '') + n;
     }
 
-	return {
-		init: init
-	};
+    return {
+      init: init
+    };
 })();
 
 pages.timer.init();
