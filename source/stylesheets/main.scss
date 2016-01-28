@@ -41,6 +41,7 @@ body {
     border: 5px solid #333333;
     transition: border-color 0.2s;
     text-align:center;
+    overflow:hidden;
 
     &:hover {
         border-color: #fafafa;
