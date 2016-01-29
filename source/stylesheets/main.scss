@@ -72,7 +72,7 @@ body {
             right: 0;
             content: "\f144";
             font-family: 'FontAwesome';
-            font-size:500px;
+            font-size:75vw;
             background-color: rgba(0,0,0,0.5);
             color: #FFFFFF;
             background-image: url(../images/square_bg.png);
@@ -82,7 +82,7 @@ body {
         }
 
         &:hover::before {
-            font-size: 600px;
+            font-size: 90vw;
             text-shadow: 0 0 100px rgba(0,0,0,0.5);
         }
     }
