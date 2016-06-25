@@ -6,9 +6,6 @@ task :test do
 end
 
 task :deploy do
-  puts "\nCopying GitHub-specific files"
-  try "cp -rv ./github/* ./build/"
-
   puts "\nDeploying to GitHub Pages"
   try "middleman deploy"
 end
