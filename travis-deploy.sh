@@ -12,4 +12,4 @@ git remote set-url origin "git@github.com:jahed/agility.git"
 git config --global user.name ${GH_USER}
 git config --global user.email ${GH_EMAIL}
 
-bundle exec rake travis:deploy
+bundle exec rake deploy
