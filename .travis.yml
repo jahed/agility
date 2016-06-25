@@ -9,3 +9,6 @@ script:
 - bundle exec rake travis:script
 after_success:
 - bundle exec rake travis:after_success
+before_install:
+- openssl aes-256-cbc -K $encrypted_cda326ff967d_key -iv $encrypted_cda326ff967d_iv
+  -in agility-travis.enc -out ~\/.ssh/deploy/agility-travis -d
