@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
+    echo "Not deploying pull request."
+    exit
+fi
+
 echo -e "\nRunning Travis Deployment"
 echo "Setting up Git Access"
 openssl aes-256-cbc -K ${encrypted_cda326ff967d_key} -iv ${encrypted_cda326ff967d_iv} -in deploy_key.enc -out deploy_key -d
