@@ -10,7 +10,7 @@ task :deploy do
   try "cp -rv ./github/* ./build/"
 
   puts "\nDeploying to GitHub Pages"
-  try "middleman deploy"
+  try "middleman deploy > /dev/null"
 end
 
 namespace :travis do
