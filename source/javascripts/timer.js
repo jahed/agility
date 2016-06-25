@@ -143,8 +143,7 @@ pages.timer = pages.timer || (function() {
     }
 
     function parsePeriodInput() {
-        var timeParts = periodInput[0].value.split(':');
-        return parseInt(timeParts[0],10)*60 + parseInt(timeParts[1],10);
+        return parseInt(periodInput[0].value,10)*60;
     }
 
     function resetTime() {
