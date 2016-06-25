@@ -21,7 +21,8 @@ namespace :travis do
   task :after_success do
     puts "\nRunning Travis Deployment"
     puts "\nSetting up Git access"
-    try "echo 'https://${GH_TOKEN}@github.com' > ./.git-credentials"
+    try "echo 'machine github.com' > ~/.netrc"
+    try "echo 'login ${GH_TOKEN}'  >> ~/.netrc"
     try "git config --global user.name ${GH_USER}"
     try "git config --global user.email ${GH_EMAIL}"
 
