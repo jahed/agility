@@ -9,7 +9,7 @@ eval `ssh-agent -s`
 ssh-add deploy_key
 
 git remote set-url origin "git@github.com:jahed/agility.git"
-git config --global user.name ${GH_USER}
-git config --global user.email ${GH_EMAIL}
+git config --global user.name ${GH_COMMIT_AUTHOR}
+git config --global user.email ${GH_COMMIT_EMAIL}
 
 bundle exec rake deploy
