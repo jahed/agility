@@ -16,12 +16,7 @@ namespace :travis do
   end
 
   task :after_success do
-    puts "\nRunning Travis Deployment"
-    
-    puts "\nSetting up Git access"
-    try "./travis-git.sh"
-
-    Rake::Task["deploy"].invoke
+    try "./travis-deploy.sh"
   end
 end
 
