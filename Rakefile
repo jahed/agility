@@ -20,12 +20,13 @@ namespace :travis do
 
   task :after_success do
     puts "\nRunning Travis Deployment"
+    
     puts "\nSetting up Git access"
-    try "echo 'machine github.com' > ~/.netrc"
-    try "echo 'login ${GH_TOKEN}'  >> ~/.netrc"
+    try "echo ${GH_KEY} > ~/.ssh/deploy_key"
+    try "echo -e 'Host github.com\nIdentityFile ~/.ssh/deploy_key' > ~/.ssh/config"
+
     try "git config --global user.name ${GH_USER}"
     try "git config --global user.email ${GH_EMAIL}"
-
     Rake::Task["deploy"].invoke
   end
 end
