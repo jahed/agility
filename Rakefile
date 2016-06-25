@@ -22,8 +22,7 @@ namespace :travis do
     puts "\nRunning Travis Deployment"
     
     puts "\nSetting up Git access"
-    try "echo ${GH_KEY} > ~/.ssh/deploy_key"
-    try "echo -e \"Host github.com\n  IdentityFile ~/.ssh/deploy_key\" > ~/.ssh/config"
+    try "ssh-add deploy_key"
     try "git remote set-url origin \"git@github.com:jahed/agility.git\""
  
     try "git config --global user.name ${GH_USER}"
