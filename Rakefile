@@ -23,8 +23,9 @@ namespace :travis do
     
     puts "\nSetting up Git access"
     try "echo ${GH_KEY} > ~/.ssh/deploy_key"
-    try "echo -e 'Host github.com\n  IdentityFile ~/.ssh/deploy_key' > ~/.ssh/config"
-
+    try "echo -e \"Host github.com\n  IdentityFile ~/.ssh/deploy_key\" > ~/.ssh/config"
+    try "git remote set-url origin \"git@github.com:jahed/agility.git\""
+ 
     try "git config --global user.name ${GH_USER}"
     try "git config --global user.email ${GH_EMAIL}"
     Rake::Task["deploy"].invoke
