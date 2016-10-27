@@ -32,8 +32,10 @@ header:
   .row.collapse
     .small-3.columns
       %label.prefix{for:'#period'} Duration
-    .small-9.columns
-      %input#period.period.text-center{ type:"time", placeholder:"Minutes", value:"10:00" }
+    .small-8.columns
+      %input#period.period.text-center{ type:"number", placeholder:"Minutes", value:"10" }
+    .small-1.columns
+      %label.postfix{for:'#period'} minutes
   %h4
     %span Mobsters
     %small You need at least two.

@@ -29,17 +29,19 @@ body {
 .middled {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     height:100%;
 }
 
 .counter {
+    position:relative;
     background-color: #333333;
     color: #dddddd;
     height:100%;
     border: 5px solid #333333;
     transition: border-color 0.2s;
     text-align:center;
+    overflow:hidden;
 
     &:hover {
         border-color: #fafafa;
@@ -59,8 +61,30 @@ body {
     }
 
     &.paused {
-        background-image: url(../images/square_bg.png);
-        background-repeat: repeat;
+        &::before {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            content: "\f144";
+            font-family: 'FontAwesome';
+            font-size:50vw;
+            background-color: rgba(0,0,0,0.5);
+            color: #FFFFFF;
+            background-image: url(../images/square_bg.png);
+            background-repeat: repeat;
+            text-shadow: 0 0 100px rgba(0,0,0,0.3);
+            transition: font-size 0.1s, text-shadow 0.1s;
+        }
+
+        &:hover::before {
+            font-size: 60vw;
+            text-shadow: 0 0 100px rgba(0,0,0,0.5);
+        }
     }
 
     .counter-text {

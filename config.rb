@@ -17,7 +17,8 @@ configure :build do
 end
 
 after_build do
-  `cp -R ./github/ ./build`
+  puts "\nCopying GitHub-specific files"
+  `cp -rv ./github/* ./build/`
 end
 
 activate :deploy do |deploy|
