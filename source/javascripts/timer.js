@@ -54,11 +54,14 @@ pages.timer = pages.timer || (function() {
         addMobsterButton = $('.add-mobster');
         mobsterContainer = $('.mobster-container');
         pageTitle = $('title');
+        saveLink = $('.save-settings');
 
         turnText = $('.turn-text');
 
         mobsters = [];
         currentMobsterIndex = 0;
+
+        saveLink.bind('click', reloadWithSettings);
 
         counter.bind('click', function onClick() {
             if(state === State.STOPPED) {
@@ -87,6 +90,51 @@ pages.timer = pages.timer || (function() {
             Notification.requestPermission();
         }
         stopCounter();
+        loadMobsters();
+    }
+
+    function reloadWithSettings(){
+        searchString = '?';
+
+        for(i in mobsters){
+            mobsterName = $(mobsters[i].name).val();
+
+            if(searchString != '?')
+                searchString += '&';
+
+            searchString += 'mobster=' + encodeURIComponent(mobsterName);
+        }
+        searchString += '&duration=' + periodInput.val();
+        
+        window.location.replace(searchString);
+    }
+
+    function loadMobsters(){
+        var qs = window.location.search;
+        if(!qs)
+            return;
+
+        var pairs = qs.replace('?','').split('&');
+
+        for (i in pairs)
+        {
+            var pair = pairs[i].split('=');
+            
+            if(pair[0] === 'duration')
+            {
+                $('#period').val(pair[1]);
+            }
+
+            if(pair[0] === 'mobster')
+            {
+                addMobster();
+
+                var container = $('.mobster-container').first();
+                var mobsterText = container.find(".mobster-control-name")[i];
+                
+                $(mobsterText).val(decodeURIComponent(pair[1]));
+            }
+        }
     }
 
     function addMobster() {
