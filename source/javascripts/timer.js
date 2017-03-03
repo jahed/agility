@@ -1,7 +1,7 @@
 var pages = pages || {};
 
 pages.timer = pages.timer || (function() {
-	  var counter;
+    var counter;
     var pageTitle;
     var counterText;
     var turnText;
@@ -282,7 +282,7 @@ pages.timer = pages.timer || (function() {
         updateCounterText('Rotate');
         nextMobster();
         showNotification();
-	}
+    }
 
     function mobbingEnabled() {
         return mobsters.filter(function(mobster) {
@@ -297,7 +297,11 @@ pages.timer = pages.timer || (function() {
 
         if(mobbingEnabled()) {
             var mobster = mobsters[currentMobsterIndex];
-            turnText.text(mobster.name.value + "'s Turn");
+            var mobsterTurnText = mobster.name.value + "'s Turn";
+            if(/s$/i.test(mobster.name.value)) {
+                mobsterTurnText = mobster.name.value + "' Turn"
+            }
+            turnText.text(mobsterTurnText);
             mobster.root.addClass('active');
         } else {
             turnText.empty();
