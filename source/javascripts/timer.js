@@ -1,7 +1,7 @@
 var pages = pages || {};
 
 pages.timer = pages.timer || (function() {
-	var counter;
+    var counter;
     var pageTitle;
     var counterText;
     var turnText;
@@ -282,7 +282,7 @@ pages.timer = pages.timer || (function() {
         updateCounterText('Rotate');
         nextMobster();
         showNotification();
-	}
+    }
 
     function mobbingEnabled() {
         return mobsters.filter(function(mobster) {
