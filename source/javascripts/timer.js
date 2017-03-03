@@ -1,4 +1,4 @@
-var pages = pages || {};
+ var pages = pages || {};
 
 pages.timer = pages.timer || (function() {
 	  var counter;
@@ -297,7 +297,11 @@ pages.timer = pages.timer || (function() {
 
         if(mobbingEnabled()) {
             var mobster = mobsters[currentMobsterIndex];
-            turnText.text(mobster.name.value + "'s Turn");
+            var mobsterTurnText = mobster.name.value + "'s Turn";
+            if(/s$/i.test(mobster.name.value)) {
+                mobsterTurnText = mobster.name.value + "' Turn"
+            }
+            turnText.text(mobsterTurnText);
             mobster.root.addClass('active');
         } else {
             turnText.empty();
