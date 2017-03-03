@@ -1,7 +1,7 @@
- var pages = pages || {};
+var pages = pages || {};
 
 pages.timer = pages.timer || (function() {
-	  var counter;
+	var counter;
     var pageTitle;
     var counterText;
     var turnText;
