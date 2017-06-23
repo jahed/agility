@@ -55,6 +55,7 @@ pages.timer = pages.timer || (function() {
         mobsterContainer = $('.mobster-container');
         pageTitle = $('title');
         saveLink = $('.save-settings');
+        shuffleMobstersLink = $('.shuffle-mobsters');
 
         turnText = $('.turn-text');
 
@@ -62,6 +63,7 @@ pages.timer = pages.timer || (function() {
         currentMobsterIndex = 0;
 
         saveLink.bind('click', reloadWithSettings);
+        shuffleMobstersLink.bind('click', shuffleMobsters);
 
         counter.bind('click', function onClick() {
             if(state === State.STOPPED) {
@@ -188,6 +190,18 @@ pages.timer = pages.timer || (function() {
 
         mobsters.push(mobster);
         mobsterContainer.append(mobster.root);
+    }
+
+    function shuffleMobsters() {
+        // Adapted from https://stackoverflow.com/a/12646864/108511
+        for (var i = mobsters.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = mobsters[i];
+          mobsters[i] = mobsters[j];
+          mobsters[j] = temp;
+        }
+
+        reloadWithSettings();
     }
 
     function parsePeriodInput() {

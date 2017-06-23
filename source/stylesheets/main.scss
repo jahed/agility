@@ -127,6 +127,10 @@ body {
     line-height:33px;
 }
 
+.reveal-modal a:not(.close-reveal-modal) {
+    margin-right: 20px;
+}
+
 @-moz-keyframes spin {
     from { -moz-transform: rotate(0deg); }
     to { -moz-transform: rotate(360deg); }
