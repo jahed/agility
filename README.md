@@ -1,6 +1,7 @@
 # Agility
 
 [![Build Status](https://img.shields.io/travis/jahed/agility.svg)](https://travis-ci.org/jahed/agility)
+[![Patreon](https://img.shields.io/badge/patreon-donate-f96854.svg)](https://www.patreon.com/jahed)
 
 Tools for Agile XP Practices (Mobbing, Retrospectives)
 
