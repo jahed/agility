@@ -36,6 +36,17 @@ header:
       %input#period.period.text-center{ type:"number", placeholder:"Minutes", value:"10" }
     .small-1.columns
       %label.postfix{for:'#period'} minutes
+  .row.collapse
+    .small-3.columns
+      %label.prefix{for:'#break-period'} Breaks each
+    .small-3.columns
+      %input#break-frequency.break-frequency.text-center{ type:"number", placeholder:"Minutes" }
+    .small-2.columns
+      %label.postfix{for:'#break-frequency'} minutes, for
+    .small-3.columns
+      %input#break-duration.break-duration.text-center{ type:"number", placeholder:"Minutes" }
+    .small-1.columns
+      %label.postfix{for:'#break-duration'} minutes
   %h4
     %span Mobsters
     %small You need at least two.

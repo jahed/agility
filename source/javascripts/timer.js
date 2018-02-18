@@ -9,6 +9,8 @@ pages.timer = pages.timer || (function() {
     var intervalId;
     var notification;
     var periodInput;
+    var breakFrequencyInput;
+    var breakDurationInput;
     var playButton;
     var pauseButton;
     var stopButton;
@@ -20,6 +22,9 @@ pages.timer = pages.timer || (function() {
     var mobsterContainer;
     var mobsters;
     var currentMobsterIndex;
+
+    var endOfLastBreak;
+    var isOnBreak;
 
     var State = {
         STOPPED: "stopped",
@@ -46,6 +51,8 @@ pages.timer = pages.timer || (function() {
         counter = $('.counter');
         counterText = counter.find('.counter-text');
         periodInput = $('input.period');
+        breakFrequencyInput = $('input.break-frequency');
+        breakDurationInput = $('input.break-duration');
         timerNav = $('.nav-timer');
         stopButton = $('.nav-timer-stop');
         playButton = $('.nav-timer-play');
@@ -107,6 +114,8 @@ pages.timer = pages.timer || (function() {
             searchString += 'mobster=' + encodeURIComponent(mobsterName);
         }
         searchString += '&duration=' + periodInput.val();
+        if (breakFrequencyInput.val())
+            searchString += '&breaks=' + breakFrequencyInput.val() + ',' + breakDurationInput.val();
         
         window.location.replace(searchString);
     }
@@ -125,6 +134,13 @@ pages.timer = pages.timer || (function() {
             if(pair[0] === 'duration')
             {
                 $('#period').val(pair[1]);
+            }
+
+            if (pair[0] === 'breaks')
+            {
+                var breaksPair = pair[1].split(',');
+                breakFrequencyInput.val(breaksPair[0]);
+                breakDurationInput.val(breaksPair[1]);
             }
 
             if(pair[0] === 'mobster')
@@ -207,9 +223,30 @@ pages.timer = pages.timer || (function() {
     function parsePeriodInput() {
         return parseInt(periodInput[0].value,10)*60;
     }
+    
+    function parseBreaks() {
+        if (!breakFrequencyInput.val())
+            return null;
+
+        return {
+            frequency: parseInt(breakFrequencyInput.val(),10)*60,
+            duration: parseInt(breakDurationInput.val(),10)*60
+        };
+    }
 
     function resetTime() {
-        time = parsePeriodInput();
+        time = getFullTime();
+    }
+
+    function getFullTime() {
+        if (isOnBreak)
+            return parseBreaks().duration;
+        return parsePeriodInput();
+    }
+
+    function ensureEndOfLastBreak() {
+        if (!endOfLastBreak)
+            endOfLastBreak = new Date();
     }
 
     function counterColor() {
@@ -246,7 +283,9 @@ pages.timer = pages.timer || (function() {
 
     function updatePageTitle() {
         var titleParts = ['[' + counterText.text() + ']'];
-        if(mobbingEnabled()) {
+        if (isOnBreak) {
+            titleParts.push('Break');
+        } else if (mobbingEnabled()) {
             titleParts.push(getCurrentMobsterName() + "'s Turn")
         }
         titleParts.push('- Agility Timer');
@@ -257,6 +296,7 @@ pages.timer = pages.timer || (function() {
     function startCounter() {
         setState(State.PLAYING);
 
+        ensureEndOfLastBreak();
         resetTime();
         updateCounterText(counterFormat(time));
         counter.css({
@@ -293,8 +333,10 @@ pages.timer = pages.timer || (function() {
         setState(State.STOPPED);
         stopCountdown();
 
+        if (!nextBreak())
+            nextMobster();
+
         updateCounterText('Rotate');
-        nextMobster();
         showNotification();
     }
 
@@ -309,7 +351,9 @@ pages.timer = pages.timer || (function() {
             mobster.root.removeClass('active');
         });
 
-        if(mobbingEnabled()) {
+        if (isOnBreak) {
+            turnText.text('Break');
+        } else if (mobbingEnabled()) {
             var mobster = mobsters[currentMobsterIndex];
             var mobsterTurnText = mobster.name.value + "'s Turn";
             if(/s$/i.test(mobster.name.value)) {
@@ -337,8 +381,26 @@ pages.timer = pages.timer || (function() {
         } else {
             turnText.empty();
         }
+    }
 
-        updatePageTitle();
+    function nextBreak() {
+        if (isOnBreak) {
+            isOnBreak = false;
+            endOfLastBreak = null; // will be set on next startCounter()
+            return false;
+        }        
+
+        var breaks = parseBreaks();
+        if (!breaks)
+            return false;
+
+        var secondsSinceLastBreak = (new Date() - endOfLastBreak) / 1000;
+        if (secondsSinceLastBreak < breaks.frequency)
+            return false;
+
+        isOnBreak = true;
+        turnText.text("Break time");
+        return true;
     }
 
     function getCurrentMobsterName() {
@@ -386,7 +448,7 @@ pages.timer = pages.timer || (function() {
     }
 
     function countdown() {
-        if(time === parsePeriodInput()) {
+        if(time === getFullTime()) {
             counter.css({
                 'background-color': Color.END,
                 'transition': 'background-color ' + time + 's'
