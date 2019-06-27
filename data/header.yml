@@ -5,3 +5,9 @@ links:
   - name: Source
     url: https://github.com/jahed/agility
     icon: github
+  - name: Donate
+    url: https://patreon.com/jahed
+    icon: heart
+  - name: Tip
+    url: https://paypal.me/jahed
+    icon: paypal
