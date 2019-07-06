@@ -5,6 +5,8 @@
 
 Timer for Agile XP Practices (Mobbing, Retrospectives).
 
+[Website](https://agility.jahed.dev)
+
 ## License
 
 [MIT](LICENSE)
