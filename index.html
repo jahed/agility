@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>[Start] - Agility Timer</title>
+    <meta
+      content="Timer for Mob Programming and just keeping time whether in Agile XP Retrospectives or any other situation."
+      name="description"
+    />
+    <link
+      href="https://agility.jahed.dev/assets/rotate.png"
+      rel="icon"
+      type="image/png"
+    />
+    <link
+      href="https://agility.jahed.dev/assets/rotate.png"
+      rel="apple-touch-icon-precomposed"
+      type="image/png"
+    />
+    <meta content="website" property="og:type" />
+    <meta content="Timer - Agility" property="og:site_name" />
+    <meta
+      content="https://agility.jahed.dev/assets/rotate.png"
+      property="og:image"
+    />
+    <meta
+      content="Timer for Mob Programming and just keeping time whether in Agile XP Retrospectives or any other situation."
+      property="og:description"
+    />
+    <link
+      href="https://agility.jahed.dev/assets/rotate.png"
+      rel="shortcut icon"
+      type="image/png"
+    />
+    <link
+      href="https://agility.jahed.dev/assets/rotate.png"
+      rel="icon"
+      type="image/png"
+    />
+    <link
+      href="https://agility.jahed.dev/assets/rotate.png"
+      rel="apple-touch-icon-precomposed"
+      type="image/png"
+    />
+    <link href="vendors/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="vendors/foundation.css" rel="stylesheet" type="text/css" />
+    <link href="main.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body class="timer f-topbar-fixed">
+    <div class="fixed">
+      <nav class="top-bar" data-topbar="" role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <h1>
+              <a href="https://agility.jahed.dev/">AGILITY</a>
+            </h1>
+          </li>
+          <li class="toggle-topbar menu-icon">
+            <a>
+              <span>Menu</span>
+            </a>
+          </li>
+        </ul>
+
+        <section class="top-bar-section">
+          <ul class="left">
+            <li class="active">
+              <a href="https://agility.jahed.dev/">
+                <i class="fa fa-clock-o"></i>
+                <span>Timer</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/jahed/agility">
+                <i class="fa fa-github"></i>
+                <span>Source</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://patreon.com/jahed">
+                <i class="fa fa-heart"></i>
+                <span>Support</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://paypal.me/jahed">
+                <i class="fa fa-coffee"></i>
+                <span>Tip</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://jahed.dev">
+                <span>&copy; Jahed</span>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav-timer right">
+            <li class="divider"></li>
+            <li class="nav-timer-play">
+              <a href="#">
+                <i class="fa fa-play"></i>
+                <span></span>
+              </a>
+            </li>
+            <li class="nav-timer-pause">
+              <a href="#">
+                <i class="fa fa-pause"></i>
+                <span></span>
+              </a>
+            </li>
+            <li class="nav-timer-stop active">
+              <a href="#">
+                <i class="fa fa-stop"></i>
+                <span></span>
+              </a>
+            </li>
+            <li class="nav-timer-settings">
+              <a href="#" data-reveal-id="settingsModal">
+                <i class="fa fa-cog"></i>
+                <span></span>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </nav>
+    </div>
+
+    <div class="middled counter stopped">
+      <div>
+        <div class="counter-text">Start</div>
+        <small class="turn-text"></small>
+      </div>
+    </div>
+    <div class="hidden">
+      <audio class="alert" src="assets/door-bell.wav" volume="1"></audio>
+    </div>
+    <div
+      class="reveal-modal"
+      data-reveal=""
+      id="settingsModal"
+      role="dialog"
+      style="display: none; opacity: 1; visibility: hidden; top: 100px;"
+      aria-hidden="true"
+    >
+      <a class="close-reveal-modal">×</a>
+      <h2>Timer Settings</h2>
+      <div class="row collapse">
+        <div class="small-3 columns">
+          <label class="prefix" for="#period">Duration</label>
+        </div>
+        <div class="small-8 columns">
+          <input
+            class="period text-center"
+            id="period"
+            placeholder="Minutes"
+            type="number"
+            value="10"
+          />
+        </div>
+        <div class="small-1 columns">
+          <label class="postfix" for="#period">minutes</label>
+        </div>
+      </div>
+      <h4>
+        <span>Mobsters</span>
+        <small>You need at least two.</small>
+      </h4>
+      <span class="button small expand add-mobster">Add a Mobster</span>
+      <div class="mobster-container"></div>
+      <a
+        class="button small secondary save-settings"
+        title="Page reloads with settings in the querystring, save or share using your browser"
+      >
+        Save
+      </a>
+      <a class="button small secondary shuffle-mobsters" title="Page reloads with shuffled mobsters">
+        Shuffle
+      </a>
+    </div>
+
+    <script src="vendors/jquery.js" type="text/javascript"></script>
+    <script src="vendors/fastclick.js" type="text/javascript"></script>
+    <script src="vendors/foundation.js" type="text/javascript"></script>
+    <script src="main.js" type="text/javascript"></script>
+  </body>
+</html>

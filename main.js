@@ -1,6 +1,4 @@
-var pages = pages || {};
-
-pages.timer = pages.timer || (function() {
+(function() {
     var counter;
     var pageTitle;
     var counterText;
@@ -16,7 +14,6 @@ pages.timer = pages.timer || (function() {
     var timerNav;
 
     var addMobsterButton;
-    var mobsterTemplate;
     var mobsterContainer;
     var mobsters;
     var currentMobsterIndex;
@@ -35,11 +32,8 @@ pages.timer = pages.timer || (function() {
     var state = State.STOPPED;
 
     function init() {
-        $.get('./javascripts/templates/mobster.mustache')
-            .success(function(template) {
-                mobsterTemplate = template
-            })
-            .then(initCounter);
+        $(document).foundation();
+        initCounter();
     }
 
     function initCounter() {
@@ -99,29 +93,36 @@ pages.timer = pages.timer || (function() {
         searchString = '?';
 
         for(i in mobsters){
-            mobsterName = $(mobsters[i].name).val();
+            var mobster = mobsters[i];
+            if (mobster.disabled) {
+              continue;
+            }
+            
+            mobsterName = mobster.name.value;
 
-            if(searchString != '?')
-                searchString += '&';
+            if(searchString != '?') {
+              searchString += '&';
+            }
 
             searchString += 'mobster=' + encodeURIComponent(mobsterName);
         }
         searchString += '&duration=' + periodInput.val();
-        
+
         window.location.replace(searchString);
     }
 
     function loadMobsters(){
         var qs = window.location.search;
-        if(!qs)
-            return;
+        if(!qs) {
+          return;
+        }
 
         var pairs = qs.replace('?','').split('&');
 
         for (i in pairs)
         {
             var pair = pairs[i].split('=');
-            
+
             if(pair[0] === 'duration')
             {
                 $('#period').val(pair[1]);
@@ -133,7 +134,7 @@ pages.timer = pages.timer || (function() {
 
                 var container = $('.mobster-container').first();
                 var mobsterText = container.find(".mobster-control-name")[i];
-                
+
                 $(mobsterText).val(decodeURIComponent(pair[1]));
             }
         }
@@ -142,9 +143,7 @@ pages.timer = pages.timer || (function() {
     function addMobster() {
         var id = mobsters.length;
 
-        var $mobster = $(Mustache.render(mobsterTemplate, {
-            id: id
-        }));
+        var $mobster = $(renderMobsterRow({ id: id }));
 
         var mobster = {
             root: $mobster,
@@ -226,7 +225,7 @@ pages.timer = pages.timer || (function() {
 
             notification = new Notification("It's time to rotate!", {
                 body: body,
-                icon: './images/rotate.png',
+                icon: 'assets/rotate.png',
                 vibrate: [200, 100, 200]
             });
 
@@ -425,9 +424,41 @@ pages.timer = pages.timer || (function() {
         return (n < 10 ? '0' : '') + n;
     }
 
+    function renderMobsterRow(props) {
+      return (
+        '<div class="mobster row collapse">' +
+            '<div class="small-8 columns">' +
+                '<input placeholder="Name" type="text" value="Mobster ' + props.id + '" class="mobster-control-name">' +
+            '</div>' +
+            '<div class="small-4 columns">' +
+                '<ul class="button-group even-4 postfix mobster-controls">' +
+                    '<li>' +
+                        '<a class="button tiny secondary mobster-control-turn">' +
+                            '<i class="fa fa-fw fa-crosshairs"></i>' +
+                        '</a>' +
+                    '</li>' +
+                    '<li>' +
+                        '<a class="button tiny secondary mobster-control-up">' +
+                            '<i class="fa fa-fw fa-arrow-up"></i>' +
+                        '</a>' +
+                    '</li>' +
+                    '<li>' +
+                        '<a class="button tiny secondary mobster-control-down">' +
+                            '<i class="fa fa-fw fa-arrow-down"></i>' +
+                        '</a>' +
+                    '</li>' +
+                    '<li>' +
+                        '<a class="button tiny alert mobster-control-disable">' +
+                            '<i class="fa fa-fw fa-eye-slash"></i>' +
+                        '</a>' +
+                    '</li>' +
+                '</ul>' +
+            '</div>' +
+        '</div>'
+      );
+    }
+
     return {
       init: init
     };
-})();
-
-pages.timer.init();
+})().init();
