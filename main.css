@@ -118,6 +118,12 @@ body {
   line-height: 33px;
 }
 
+.reveal-modal {
+  max-height: calc(100vh - 200px);
+  overflow: auto;
+  min-height: auto !important; /* override foundation on mobile media */
+}
+
 .reveal-modal a:not(.close-reveal-modal) {
   margin-right: 20px;
 }
