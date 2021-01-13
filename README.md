@@ -1,12 +1,21 @@
-# Agility Timer
+# Agility - Mob Programming Timer
 
-[![Patreon](https://img.shields.io/badge/patreon-donate-f96854.svg)](https://www.patreon.com/jahed)
-[![Liberapay](https://img.shields.io/badge/liberapay-donate-d9b113.svg)](https://liberapay.com/jahed)
+Mob Programming Timer, Pair Programming Timer, Agile XP Retrospective Timer, Meeting Timer.
 
-Timer for Agile XP Practices (Mobbing, Retrospectives).
-
-[Website](https://agility.jahed.dev)
+- [Website](https://agility.jahed.dev)
 
 ## License
 
-[MIT](LICENSE)
+Copyright (C) 2021 Jahed Ahmed
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
