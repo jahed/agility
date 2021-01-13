@@ -248,7 +248,7 @@
         if(mobbingEnabled()) {
             titleParts.push(getCurrentMobsterName() + "'s Turn")
         }
-        titleParts.push('- Agility Timer');
+        titleParts.push('- Agility - Mob Programming Timer');
 
         pageTitle.text(titleParts.join(' '));
     }
