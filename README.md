@@ -2,7 +2,7 @@
 
 Mob Programming Timer, Pair Programming Timer, Agile XP Retrospective Timer, Meeting Timer.
 
-- [Website](https://agility.jahed.dev)
+- [Website](https://jahed.github.io/agility)
 
 ## License
 
